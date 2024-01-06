@@ -32,11 +32,12 @@ export const load = async () => {
 
 		listItems.each((index, element) => {
 			const team = $(element).find('td').eq(0).text();
-			if (team) {
+			const teamSanitized = team.split('-')[0].trim();
+			if (teamSanitized) {
 				const wins = $(element).find('td').eq(1).text().trim();
 				const losses = $(element).find('td').eq(2).text().trim();
 				const ties = $(element).find('td').eq(3).text().trim();
-				const member = members.find((member) => member.teams.includes(team));
+				const member = members.find((member) => member.teams.includes(teamSanitized));
 				const teamImg = $(element).find('td').eq(0).find('img').attr('data-lazy') || '';
 				if (member) {
 					const memberStanding = standings.find((standing) => standing.name === member.name);
@@ -45,7 +46,7 @@ export const load = async () => {
 						memberStanding.losses += parseInt(losses);
 						memberStanding.ties += parseInt(ties);
 						memberStanding.teams.push({
-							name: team,
+							name: teamSanitized,
 							wins: parseInt(wins),
 							losses: parseInt(losses),
 							ties: parseInt(ties),
