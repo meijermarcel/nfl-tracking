@@ -1,3 +1,8 @@
 {
-  "crons": []
+  "crons": [],
+  "functions": {
+    "app/**/*.js": {
+      "runtime": "nodejs22.x"
+    }
+  }
 }
