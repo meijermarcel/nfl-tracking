@@ -37,7 +37,7 @@ export const load = async () => {
 				const wins = $(element).find('td').eq(5).text().trim();
 				const losses = $(element).find('td').eq(6).text().trim();
 				const member = members.find((member) => member.teams.includes(team));
-				const teamImg = $(element).find('td').eq(0).find('img').attr('data-lazy') || '';
+				const teamImg = $(element).find('td').eq(0).find('img').attr('src') || '';
 				if (member) {
 					const memberStanding = standings.find((standing) => standing.name === member.name);
 					if (memberStanding) {
