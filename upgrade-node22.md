@@ -108,27 +108,17 @@ npm run build
 
 If you encounter "Unsupported Node.js version" errors during Vercel deployment:
 
-1. **Add runtime configuration to svelte.config.js**:
+**Add runtime configuration to svelte.config.js**:
 
-   ```javascript
-   adapter: adapter({
-       runtime: 'nodejs22.x@1.0.0'
-   })
-   ```
-
-2. **Update vercel.json** (optional but recommended):
-
-   ```json
-   {
-     "functions": {
-       "app/**/*.js": {
-         "runtime": "nodejs22.x@1.0.0"
-       }
-     }
-   }
-   ```
+```javascript
+adapter: adapter({
+    runtime: 'nodejs22.x@1.0.0'
+})
+```
 
 **Important**: The runtime must include a version number (e.g., `nodejs22.x@1.0.0`), not just `nodejs22.x`.
+
+**Note**: The `vercel.json` functions configuration is not needed for SvelteKit projects. The runtime setting in `svelte.config.js` is sufficient.
 
 ### Dependency Conflicts
 
