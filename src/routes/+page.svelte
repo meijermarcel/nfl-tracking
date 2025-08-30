@@ -86,8 +86,18 @@
 <div class="container">
     {#each data.members as member, i}
         <div class="member">
-            <!-- svelte-ignore a11y-click-events-have-key-events -->
-            <div class="member-info" on:click={() => member.collapsed = !member.collapsed}>
+            <div 
+                class="member-info" 
+                role="button"
+                tabindex="0"
+                on:click={() => member.collapsed = !member.collapsed}
+                on:keydown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        member.collapsed = !member.collapsed;
+                    }
+                }}
+            >
                 <div class="split">
                     <h3>
                         <span class="position">{ i + 1 }</span>

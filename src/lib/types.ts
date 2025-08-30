@@ -22,26 +22,34 @@ export class Team {
 	img = '';
 }
 
-// export class Game {
-// 	awayTeam = new GameTeam('', '');
-// 	homeTeam = new GameTeam('', '');
-// 	status = '';
-// 	showScore = true;
-// 	outcome = '';
-// }
+export class Game {
+	awayTeam = new GameTeam('', '');
+	homeTeam = new GameTeam('', '');
+	status = '';
+	showScore = true;
+	outcome = '';
+}
 
-// export class GameTeam {
-// 	name = '';
-// 	memberName = '';
-// 	score? = 0;
-// 	logoSrc = '';
+export class GameTeam {
+	name = '';
+	memberName = '';
+	score?: number = 0;
+	logoSrc = '';
+	first_quarter = 0;
+	second_quarter = 0;
+	third_quarter = 0;
+	fourth_quarter = 0;
+	total = 0;
+	img = '';
+	result = '';
+	member_name?: string;
 
-// 	constructor(name: string, memberName: string, logoSrc?: string) {
-// 		this.name = name;
-// 		this.memberName = memberName;
-// 		this.logoSrc = logoSrc || '';
-// 	}
-// }
+	constructor(name: string, memberName: string, logoSrc?: string) {
+		this.name = name;
+		this.memberName = memberName;
+		this.logoSrc = logoSrc || '';
+	}
+}
 
 export class Stats {
 	batting: StatField[] = [];
@@ -160,23 +168,11 @@ export class ScoreGames {
 }
 
 export class GameScore {
-	away_team: GameTeam = new GameTeam();
-	home_team: GameTeam = new GameTeam();
+	away_team: GameTeam = new GameTeam('', '');
+	home_team: GameTeam = new GameTeam('', '');
 	status = '';
 	time = '';
 	channel = '';
-}
-
-export class GameTeam {
-	first_quarter = 0;
-	second_quarter = 0;
-	third_quarter = 0;
-	fourth_quarter = 0;
-	total = 0;
-	name = '';
-	img = '';
-	result = '';
-	member_name?: string;
 }
 
 export interface Week {

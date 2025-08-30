@@ -15,10 +15,6 @@
         margin: 4rem auto;
     }
 
-    .outer {
-        margin: 0 auto;
-    }
-
     nav {
         display: flex;
         gap: 0.5rem;

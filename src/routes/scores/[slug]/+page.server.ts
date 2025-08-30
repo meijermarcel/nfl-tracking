@@ -1,6 +1,6 @@
 import axios from 'axios';
-import cheerio from 'cheerio';
-import type { GameScore } from '$lib/types';
+import * as cheerio from 'cheerio';
+import type { GameScore, GameTeam } from '$lib/types';
 import { members } from '$lib/global-var';
 
 function setGameResult(game: any) {
@@ -29,7 +29,7 @@ export const load = async ({ params }) => {
 		const scoreCards = $('.score-cards');
 		const games: GameScore[] = [];
 		// get each of scoreCards child divs
-		scoreCards.children().each((index, element) => {
+		scoreCards.children().each((index: number, element: any) => {
 			// get child with class 'live-update'
 			const liveUpdate = $(element).find('.live-update');
 			if (liveUpdate.length) {
@@ -46,32 +46,43 @@ export const load = async ({ params }) => {
 					}
 					// live/final game
 					const trs = table.find('tbody').find('tr');
+					const awayTeamName = trs.eq(0).find('.team-name-link').text();
+					const homeTeamName = trs.eq(1).find('.team-name-link').text();
+					const awayMemberName = members.find((member) =>
+						member.teams.includes(awayTeamName)
+					)?.name;
+					const homeMemberName = members.find((member) =>
+						member.teams.includes(homeTeamName)
+					)?.name;
+
 					game = {
 						away_team: {
-							name: trs.eq(0).find('.team-name-link').text(),
+							name: awayTeamName,
 							img: trs.eq(0).find('.team-details-wrapper').find('img').attr('src') || '',
 							first_quarter: parseInt(trs.eq(0).find('td').eq(1).text()),
 							second_quarter: parseInt(trs.eq(0).find('td').eq(2).text()),
 							third_quarter: parseInt(trs.eq(0).find('td').eq(3).text()),
 							fourth_quarter: parseInt(trs.eq(0).find('td').eq(4).text()),
 							total: parseInt(trs.eq(0).find('.total').text()),
-							member_name: members.find((member) =>
-								member.teams.includes(trs.eq(0).find('.team-name-link').text())
-							)?.name,
-							result: ''
+							member_name: awayMemberName,
+							result: '',
+							memberName: awayMemberName || '',
+							logoSrc: trs.eq(0).find('.team-details-wrapper').find('img').attr('src') || '',
+							score: parseInt(trs.eq(0).find('.total').text())
 						},
 						home_team: {
-							name: trs.eq(1).find('.team-name-link').text(),
+							name: homeTeamName,
 							img: trs.eq(1).find('.team-details-wrapper').find('img').attr('src') || '',
 							first_quarter: parseInt(trs.eq(1).find('td').eq(1).text()),
 							second_quarter: parseInt(trs.eq(1).find('td').eq(2).text()),
 							third_quarter: parseInt(trs.eq(1).find('td').eq(3).text()),
 							fourth_quarter: parseInt(trs.eq(1).find('td').eq(4).text()),
 							total: parseInt(trs.eq(1).find('.total').text()),
-							member_name: members.find((member) =>
-								member.teams.includes(trs.eq(1).find('.team-name-link').text())
-							)?.name,
-							result: ''
+							member_name: homeMemberName,
+							result: '',
+							memberName: homeMemberName || '',
+							logoSrc: trs.eq(1).find('.team-details-wrapper').find('img').attr('src') || '',
+							score: parseInt(trs.eq(1).find('.total').text())
 						},
 						status: status,
 						time: liveUpdate.find('.ingame').find('.game-status').text(),
@@ -80,32 +91,43 @@ export const load = async ({ params }) => {
 				} else {
 					// scheduled games
 					const trs = table.find('tbody').find('tr');
+					const awayTeamName = trs.eq(0).find('.team-name-link').text();
+					const homeTeamName = trs.eq(1).find('.team-name-link').text();
+					const awayMemberName = members.find((member) =>
+						member.teams.includes(awayTeamName)
+					)?.name;
+					const homeMemberName = members.find((member) =>
+						member.teams.includes(homeTeamName)
+					)?.name;
+
 					game = {
 						away_team: {
-							name: trs.eq(0).find('.team-name-link').text(),
+							name: awayTeamName,
 							img: trs.eq(0).find('.team-details-wrapper').find('img').attr('src') || '',
 							first_quarter: 0,
 							second_quarter: 0,
 							third_quarter: 0,
 							fourth_quarter: 0,
 							total: 0,
-							member_name: members.find((member) =>
-								member.teams.includes(trs.eq(0).find('.team-name-link').text())
-							)?.name,
-							result: ''
+							member_name: awayMemberName,
+							result: '',
+							memberName: awayMemberName || '',
+							logoSrc: trs.eq(0).find('.team-details-wrapper').find('img').attr('src') || '',
+							score: 0
 						},
 						home_team: {
-							name: trs.eq(1).find('.team-name-link').text(),
+							name: homeTeamName,
 							img: trs.eq(1).find('.team-details-wrapper').find('img').attr('src') || '',
 							first_quarter: 0,
 							second_quarter: 0,
 							third_quarter: 0,
 							fourth_quarter: 0,
 							total: 0,
-							member_name: members.find((member) =>
-								member.teams.includes(trs.eq(1).find('.team-name-link').text())
-							)?.name,
-							result: ''
+							member_name: homeMemberName,
+							result: '',
+							memberName: homeMemberName || '',
+							logoSrc: trs.eq(1).find('.team-details-wrapper').find('img').attr('src') || '',
+							score: 0
 						},
 						status: 'scheduled',
 						time: liveUpdate.find('.pregame').find('.game-status').find('formatter').text(),

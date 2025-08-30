@@ -1,6 +1,6 @@
 import { MemberStanding } from '$lib/types';
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import { members } from '$lib/global-var';
 
 let standings: MemberStanding[] = [];
@@ -31,7 +31,7 @@ export const load = async () => {
 
 		const listItems = $('tbody > tr');
 
-		listItems.each((index, element) => {
+		listItems.each((index: number, element: any) => {
 			const team = $(element).find('td').eq(0).text();
 			if (team) {
 				const wins = $(element).find('td').eq(5).text().trim();
