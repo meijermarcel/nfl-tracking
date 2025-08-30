@@ -10,84 +10,209 @@
 
 <style>
     .container {
-        padding: 1rem 0.5rem;
-        max-width: 400px;
-        margin: 4rem auto;
+        padding: var(--spacing-lg) var(--spacing-md);
+        max-width: 800px;
+        margin: 0 auto;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content {
+        flex: 1;
+        margin-top: var(--spacing-xl);
     }
 
     nav {
         display: flex;
-        gap: 0.5rem;
         align-items: center;
         justify-content: space-between;
-        /* margin: 1rem; */
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background-color: whitesmoke;
-        border: 1px solid var(--primary-color);
-        padding: 0.5rem;
-        border-radius: 12px;
-        box-shadow: #ff400046 0px 3px 8px;
-        max-width: min(90vw, 365px);
-        margin: 1rem auto;
+        background: var(--accent-light);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-md) var(--spacing-lg);
+        box-shadow: var(--shadow-lg);
+        position: sticky;
+        top: var(--spacing-md);
+        z-index: 100;
+        margin-bottom: var(--spacing-lg);
     }
 
-    a {
-        color: var(--primary-color);
-        text-decoration: none;
-        font-weight: 600;
-        padding: 3px 6px;
-        border-radius: 5px;
-    }
-
-    a.active {
-        color: white;
-        background-color: var(--primary-color);
+    .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
     }
 
     .title {
-        font-weight: 700;
-        font-size: 1.25rem;
+        font-weight: 800;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        margin: 0;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: var(--spacing-sm);
+    }
+
+    a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--radius-md);
+        transition: all var(--transition-fast);
+        position: relative;
+        overflow: hidden;
+        min-height: var(--touch-target-min);
+        min-width: var(--touch-target-min);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    a:hover {
+        color: var(--primary-color);
+        background-color: var(--accent-color);
+        transform: translateY(-1px);
+    }
+
+    a.active {
+        color: var(--accent-light);
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        box-shadow: var(--shadow-md);
+    }
+
+    a.active:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
     }
 
     footer {
-        color: gray;
+        margin-top: auto;
+        padding: var(--spacing-lg) 0;
+        text-align: center;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border-color);
     }
 
     footer p {
         margin: 0;
-        text-align: center;
-        font-size: 12px;
+        font-size: 0.875rem;
+        font-weight: 500;
     }
 
     .loading {
         display: flex;
         justify-content: center;
         align-items: center;
+        min-height: 200px;
     }
 
+    /* Mobile-first responsive design */
+    @media (max-width: 768px) {
+        .container {
+            padding: var(--mobile-padding);
+            max-width: 100%;
+        }
+        
+        .content {
+            margin-top: var(--spacing-lg);
+        }
+        
+        nav {
+            flex-direction: column;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            margin: var(--spacing-sm);
+            border-radius: var(--radius-lg);
+        }
+        
+        .nav-links {
+            width: 100%;
+            justify-content: center;
+            gap: var(--spacing-md);
+        }
+        
+        .title {
+            font-size: 1.25rem;
+        }
+        
+        a {
+            flex: 1;
+            padding: var(--spacing-md);
+            font-size: 0.875rem;
+        }
+        
+        a:hover {
+            transform: none;
+        }
+        
+        a.active:hover {
+            transform: none;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            padding: var(--spacing-sm);
+        }
+        
+        nav {
+            margin: var(--spacing-xs);
+            padding: var(--spacing-sm);
+        }
+        
+        .nav-links {
+            gap: var(--spacing-sm);
+        }
+        
+        a {
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: 0.8rem;
+        }
+        
+        .title {
+            font-size: 1.125rem;
+        }
+    }
+
+    /* Landscape mobile optimization */
+    @media (max-width: 768px) and (orientation: landscape) {
+        nav {
+            flex-direction: row;
+            gap: var(--spacing-md);
+        }
+        
+        .nav-links {
+            width: auto;
+        }
+    }
 </style>
 
 <nav>
-    <div class="title">CFB 2025</div>
-    <div>
+    <div class="nav-brand">
+        <div class="title">🏈 CFB 2025</div>
+    </div>
+    <div class="nav-links">
         <a href="/" data-sveltekit-preload-data class:active={$page.url.pathname==='/'}>Standings</a>
         <a href="/scores/4" data-sveltekit-preload-data class:active={$page.url.pathname==='/scores/4'}>Scores</a>
     </div>
 </nav>
 
 <div class="container">
-{#if $navigating}
-    <div class="loading">
-        <SyncLoader size="60" color="#ff3e00" unit="px" duration="1s" />
+    <div class="content">
+        {#if $navigating}
+            <div class="loading">
+                <SyncLoader size="60" color="var(--primary-color)" unit="px" duration="1s" />
+            </div>
+        {:else}
+            <slot />
+        {/if}
     </div>
-{:else}
-    <slot />
-{/if}
 </div>
-
 
 <footer>
     <p>twelveminusfive</p>
