@@ -23,7 +23,7 @@ This project has been updated to support Node 22 as required by Vercel. Here are
 - Updated `vite.config.ts` to use Vite 6.0 imports
 - Updated `.eslintrc.cjs` to use new Svelte plugin syntax
 - Updated `tsconfig.json` with modern TypeScript settings
-- **Vercel adapter runtime**: Added explicit `runtime: 'nodejs22.x'` configuration
+- **Vercel adapter runtime**: Added explicit `runtime: 'nodejs22.x@1.0.0'` configuration
 
 ### 3. Code Compatibility Fixes
 
@@ -112,20 +112,23 @@ If you encounter "Unsupported Node.js version" errors during Vercel deployment:
 
    ```javascript
    adapter: adapter({
-       runtime: 'nodejs22.x'
+       runtime: 'nodejs22.x@1.0.0'
    })
    ```
 
 2. **Update vercel.json** (optional but recommended):
+
    ```json
    {
      "functions": {
        "app/**/*.js": {
-         "runtime": "nodejs22.x"
+         "runtime": "nodejs22.x@1.0.0"
        }
      }
    }
    ```
+
+**Important**: The runtime must include a version number (e.g., `nodejs22.x@1.0.0`), not just `nodejs22.x`.
 
 ### Dependency Conflicts
 
