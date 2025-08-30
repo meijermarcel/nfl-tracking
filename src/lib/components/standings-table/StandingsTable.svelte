@@ -76,13 +76,14 @@
     }
 
     .totals-row {
-        background: var(--accent-color);
+        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
         border-top: 2px solid var(--primary-color);
         font-weight: 700;
     }
 
     .totals-row td {
-        color: var(--primary-color);
+        color: var(--accent-light);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
 
     .games-played {

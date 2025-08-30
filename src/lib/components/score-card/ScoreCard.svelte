@@ -156,8 +156,9 @@
     .member-matchup {
         padding: var(--spacing-md) 0;
         border-top: 1px solid var(--border-color);
-        background: var(--accent-color);
+        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
         margin-top: var(--spacing-sm);
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
     }
 
     .member-vs {
@@ -169,9 +170,10 @@
     }
 
     .vs-text {
-        font-weight: 600;
-        color: var(--text-secondary);
+        font-weight: 700;
+        color: var(--accent-light);
         font-size: 0.875rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
 
     .game-info {
