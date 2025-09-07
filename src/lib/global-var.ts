@@ -1,99 +1,27 @@
 export const members = [
 	{
 		name: 'Marcel',
-		teams: [
-			'Texas',
-			'Arizona St.',
-			'SMU',
-			'Illinois',
-			'Utah',
-			'Missouri',
-			'Wisconsin',
-			'Boston College',
-			'Michigan St.',
-			'Arizona',
-			'Miss. State'
-		]
-	},
-	{
-		name: 'Matt',
-		teams: [
-			'Ohio State',
-			'Miami (Fla.)',
-			'Indiana',
-			'Iowa St.',
-			'Auburn',
-			'Florida State',
-			'Minnesota',
-			'Virginia',
-			'Cincinnati',
-			'Arkansas',
-			'Wake Forest'
-		]
-	},
-	{
-		name: 'Nate',
-		teams: [
-			'Georgia',
-			'South Carolina',
-			'Nebraska',
-			'USC',
-			'Kansas State',
-			'Oklahoma',
-			'UCF',
-			'TCU',
-			'Iowa',
-			'Maryland',
-			'Oklahoma State'
-		]
-	},
-	{
-		name: 'Bob',
-		teams: [
-			'Alabama',
-			'Oregon',
-			'BYU',
-			'Ole Miss',
-			'Texas Tech',
-			'Texas A&M',
-			'Duke',
-			'Louisville',
-			'West Virginia',
-			'Pittsburgh',
-			'Syracuse'
-		]
-	},
-	{
-		name: 'Tom',
-		teams: [
-			'Notre Dame',
-			'Tennessee',
-			'Michigan',
-			'Virginia Tech',
-			'LSU',
-			'UConn',
-			'Baylor',
-			'Colorado',
-			'Rutgers',
-			'NC State',
-			'Houston'
-		]
+		teams: ['Washington', 'Cincinnati', 'Seattle', 'Miami', 'N.Y. Giants']
 	},
 	{
 		name: 'Carter',
-		teams: [
-			'Penn State',
-			'Clemson',
-			'Kansas',
-			'Florida',
-			'North Carolina',
-			'Georgia Tech',
-			'Washington',
-			'Vanderbilt',
-			'Oregon State',
-			'Kentucky',
-			'Washington St.'
-		]
+		teams: ['Detroit', 'Tampa Bay', 'Dallas', 'New England', 'Tennessee']
+	},
+	{
+		name: 'Bob',
+		teams: ['Baltimore', 'Houston', 'Pittsburgh', 'Las Vegas', 'Jacksonville']
+	},
+	{
+		name: 'Tom',
+		teams: ['Buffalo', 'Green Bay', 'L.A. Rams', 'Indianapolis', 'Atlanta']
+	},
+	{
+		name: 'Nate',
+		teams: ['Kansas City', 'Denver', 'San Francisco', 'Minnesota', 'Carolina']
+	},
+	{
+		name: 'Matt',
+		teams: ['Philadelphia', 'L.A. Chargers', 'Chicago', 'Arizona', 'N.Y. Jets']
 	}
 ];
 
