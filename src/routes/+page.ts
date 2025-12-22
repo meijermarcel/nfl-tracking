@@ -23,6 +23,193 @@ const resetStandings = () => {
 	];
 };
 
+// Team name mapping: maps common variations to the names used in global-var.ts
+const teamNameMap: Record<string, string> = {
+	// Washington
+	'washington commanders': 'Washington',
+	'washington': 'Washington',
+	
+	// Cincinnati
+	'cincinnati bengals': 'Cincinnati',
+	'cincinnati': 'Cincinnati',
+	
+	// Seattle
+	'seattle seahawks': 'Seattle',
+	'seattle': 'Seattle',
+	
+	// Miami
+	'miami dolphins': 'Miami',
+	'miami': 'Miami',
+	
+	// N.Y. Giants
+	'new york giants': 'N.Y. Giants',
+	'ny giants': 'N.Y. Giants',
+	'n.y. giants': 'N.Y. Giants',
+	'giants': 'N.Y. Giants',
+	
+	// Detroit
+	'detroit lions': 'Detroit',
+	'detroit': 'Detroit',
+	
+	// Tampa Bay
+	'tampa bay buccaneers': 'Tampa Bay',
+	'tampa bay': 'Tampa Bay',
+	
+	// Dallas
+	'dallas cowboys': 'Dallas',
+	'dallas': 'Dallas',
+	
+	// New England
+	'new england patriots': 'New England',
+	'new england': 'New England',
+	'ne patriots': 'New England',
+	
+	// Tennessee
+	'tennessee titans': 'Tennessee',
+	'tennessee': 'Tennessee',
+	
+	// Baltimore
+	'baltimore ravens': 'Baltimore',
+	'baltimore': 'Baltimore',
+	
+	// Houston
+	'houston texans': 'Houston',
+	'houston': 'Houston',
+	
+	// Pittsburgh
+	'pittsburgh steelers': 'Pittsburgh',
+	'pittsburgh': 'Pittsburgh',
+	
+	// Las Vegas
+	'las vegas raiders': 'Las Vegas',
+	'las vegas': 'Las Vegas',
+	'oakland raiders': 'Las Vegas', // Handle old name
+	
+	// Jacksonville
+	'jacksonville jaguars': 'Jacksonville',
+	'jacksonville': 'Jacksonville',
+	
+	// Buffalo
+	'buffalo bills': 'Buffalo',
+	'buffalo': 'Buffalo',
+	
+	// Green Bay
+	'green bay packers': 'Green Bay',
+	'green bay': 'Green Bay',
+	
+	// L.A. Rams
+	'los angeles rams': 'L.A. Rams',
+	'la rams': 'L.A. Rams',
+	'l.a. rams': 'L.A. Rams',
+	'rams': 'L.A. Rams',
+	
+	// Indianapolis
+	'indianapolis colts': 'Indianapolis',
+	'indianapolis': 'Indianapolis',
+	
+	// Atlanta
+	'atlanta falcons': 'Atlanta',
+	'atlanta': 'Atlanta',
+	
+	// Kansas City
+	'kansas city chiefs': 'Kansas City',
+	'kansas city': 'Kansas City',
+	'kc chiefs': 'Kansas City',
+	
+	// Denver
+	'denver broncos': 'Denver',
+	'denver': 'Denver',
+	
+	// San Francisco
+	'san francisco 49ers': 'San Francisco',
+	'san francisco': 'San Francisco',
+	'sf 49ers': 'San Francisco',
+	'49ers': 'San Francisco',
+	
+	// Minnesota
+	'minnesota vikings': 'Minnesota',
+	'minnesota': 'Minnesota',
+	
+	// Carolina
+	'carolina panthers': 'Carolina',
+	'carolina': 'Carolina',
+	
+	// Philadelphia
+	'philadelphia eagles': 'Philadelphia',
+	'philadelphia': 'Philadelphia',
+	
+	// L.A. Chargers
+	'los angeles chargers': 'L.A. Chargers',
+	'la chargers': 'L.A. Chargers',
+	'l.a. chargers': 'L.A. Chargers',
+	'chargers': 'L.A. Chargers',
+	
+	// Chicago
+	'chicago bears': 'Chicago',
+	'chicago': 'Chicago',
+	
+	// Arizona
+	'arizona cardinals': 'Arizona',
+	'arizona': 'Arizona',
+	
+	// N.Y. Jets
+	'new york jets': 'N.Y. Jets',
+	'ny jets': 'N.Y. Jets',
+	'n.y. jets': 'N.Y. Jets',
+	'jets': 'N.Y. Jets'
+};
+
+// Helper function to normalize team names for matching
+const normalizeTeamName = (name: string): string => {
+	return name.trim().replace(/\s+/g, ' ');
+};
+
+// Helper function to find matching team name, handling variations
+const findMatchingTeam = (scrapedTeam: string, memberTeams: string[]): string | undefined => {
+	const normalizedScraped = normalizeTeamName(scrapedTeam).toLowerCase();
+	
+	// First, try to find a match using the team name map
+	const mappedName = teamNameMap[normalizedScraped];
+	if (mappedName && memberTeams.includes(mappedName)) {
+		return mappedName;
+	}
+	
+	// Try exact match (after normalization)
+	const exactMatch = memberTeams.find(team => normalizeTeamName(team).toLowerCase() === normalizedScraped);
+	if (exactMatch) return exactMatch;
+	
+	// Try case-insensitive match
+	const caseInsensitiveMatch = memberTeams.find(team => 
+		normalizeTeamName(team).toLowerCase() === normalizedScraped
+	);
+	if (caseInsensitiveMatch) return caseInsensitiveMatch;
+	
+	// Try partial match - check if scraped name contains member team name or vice versa
+	const partialMatch = memberTeams.find(team => {
+		const normalizedMember = normalizeTeamName(team).toLowerCase();
+		
+		// Check if one contains the other
+		if (normalizedScraped.includes(normalizedMember) || normalizedMember.includes(normalizedScraped)) {
+			return true;
+		}
+		
+		// Check if the key parts match (e.g., "New York" matches "N.Y.")
+		const normalizeForMatch = (str: string) => {
+			return str
+				.replace(/^n\.y\./i, 'new york')
+				.replace(/^l\.a\./i, 'los angeles')
+				.replace(/\./g, '')
+				.replace(/\s+/g, ' ')
+				.trim()
+				.toLowerCase();
+		};
+		
+		return normalizeForMatch(normalizedMember) === normalizeForMatch(normalizedScraped);
+	});
+	
+	return partialMatch;
+};
+
 export const load = async () => {
 	resetStandings();
 
@@ -33,21 +220,28 @@ export const load = async () => {
 		const listItems = $('tbody > tr');
 
 		listItems.each((index: number, element: any) => {
-			const team = $(element).find('td').eq(0).text();
-			if (team) {
+			const scrapedTeam = $(element).find('td').eq(0).text();
+			if (scrapedTeam) {
 				const wins = $(element).find('td').eq(1).text().trim();
 				const losses = $(element).find('td').eq(2).text().trim();
-				const member = members.find((member) => member.teams.includes(team));
 				const teamImg = $(element).find('td').eq(0).find('img').attr('src') || '';
-				if (member) {
+				
+				// Find the matching team name from member teams
+				let matchedTeamName: string | undefined;
+				let member = members.find((member) => {
+					matchedTeamName = findMatchingTeam(scrapedTeam, member.teams);
+					return matchedTeamName !== undefined;
+				});
+				
+				if (member && matchedTeamName) {
 					const memberStanding = standings.find((standing) => standing.name === member.name);
 					if (memberStanding) {
-						memberStanding.wins += parseInt(wins);
-						memberStanding.losses += parseInt(losses);
+						memberStanding.wins += parseInt(wins) || 0;
+						memberStanding.losses += parseInt(losses) || 0;
 						memberStanding.teams.push({
-							name: team,
-							wins: parseInt(wins),
-							losses: parseInt(losses),
+							name: matchedTeamName, // Use the normalized team name from global-var
+							wins: parseInt(wins) || 0,
+							losses: parseInt(losses) || 0,
 							img: teamImg
 						});
 					}
