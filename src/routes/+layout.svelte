@@ -1,92 +1,139 @@
 <script>
-	import { SyncLoader } from 'svelte-loading-spinners';
 	import { navigating } from '$app/stores';
-
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 
 	inject({ mode: dev ? 'development' : 'production' });
 </script>
 
-<nav>
-	<div class="title">NFL 2026</div>
-</nav>
+<header class="band">
+	<div class="band-inner">
+		<div class="brand">
+			<span class="brand-season">2026</span>
+			<span class="brand-name">NFL standings</span>
+		</div>
+	</div>
+</header>
 
-<div class="container">
+<main class="sheet-wrap">
 	{#if $navigating}
-		<div class="loading">
-			<SyncLoader size="60" color="#ff3e00" unit="px" duration="1s" />
+		<div class="loading" role="status" aria-live="polite">
+			<span class="pulse"></span>
+			<span class="pulse"></span>
+			<span class="pulse"></span>
+			<span class="sr-only">Loading standings</span>
 		</div>
 	{:else}
 		<slot />
 	{/if}
-</div>
+</main>
 
 <footer>
-	<p>twelve <span>&#183;</span> minus <span>&#183;</span> five</p>
+	<p>
+		twelve <span aria-hidden="true">&#183;</span> minus <span aria-hidden="true">&#183;</span> five
+	</p>
 </footer>
 
 <style>
-	.container {
-		padding: 1rem 0.5rem;
-		max-width: 400px;
-		margin: 4rem auto;
+	.band {
+		background: var(--blue);
+		color: var(--white);
+		padding: 2rem var(--gutter) 5rem;
 	}
 
-	.outer {
+	.band-inner {
+		max-width: var(--sheet-width);
 		margin: 0 auto;
 	}
 
-	nav {
+	.brand {
 		display: flex;
-		gap: 0.5rem;
-		align-items: center;
-		justify-content: space-between;
-		/* margin: 1rem; */
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		background-color: whitesmoke;
-		border: 1px solid var(--primary-color);
-		padding: 0.5rem;
-		border-radius: 12px;
-		box-shadow: #ff400046 0px 3px 8px;
-		max-width: min(90vw, 365px);
-		margin: 1rem auto;
-	}
-
-	a {
-		color: var(--primary-color);
+		flex-direction: column;
+		color: inherit;
 		text-decoration: none;
+		font-family: var(--font-display);
+		line-height: 0.9;
+		width: max-content;
+	}
+
+	.brand-season {
+		font-size: 4.5rem;
+		font-weight: 800;
+		letter-spacing: -0.03em;
+	}
+
+	.brand-name {
+		font-size: 1.5rem;
 		font-weight: 600;
-		padding: 3px 6px;
-		border-radius: 5px;
+		letter-spacing: 0.01em;
+		margin-top: 0.35rem;
 	}
 
-	a.active {
-		color: white;
-		background-color: var(--primary-color);
-	}
-
-	.title {
-		font-weight: 700;
-		font-size: 1.25rem;
-	}
-
-	footer {
-		color: gray;
-	}
-
-	footer p {
-		margin: 0;
-		text-align: center;
-		font-size: 12px;
+	.sheet-wrap {
+		max-width: var(--sheet-width);
+		margin: -3.5rem auto 0;
+		padding: 0 var(--gutter);
 	}
 
 	.loading {
 		display: flex;
 		justify-content: center;
-		align-items: center;
+		gap: 0.5rem;
+		padding: 3rem 0;
+		background: var(--white);
+		border-radius: 6px;
+	}
+
+	.pulse {
+		width: 0.75rem;
+		height: 0.75rem;
+		border-radius: 50%;
+		background: var(--blue);
+		animation: pulse 0.9s ease-in-out infinite;
+	}
+
+	.pulse:nth-child(2) {
+		animation-delay: 0.15s;
+	}
+
+	.pulse:nth-child(3) {
+		animation-delay: 0.3s;
+	}
+
+	@keyframes pulse {
+		0%,
+		100% {
+			opacity: 0.25;
+			transform: scale(0.8);
+		}
+		50% {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+
+	footer {
+		max-width: var(--sheet-width);
+		margin: 2.5rem auto 3rem;
+		padding: 0 var(--gutter);
+	}
+
+	footer p {
+		margin: 0;
+		text-align: center;
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: 0.95rem;
+		letter-spacing: 0.04em;
+		color: var(--silver);
 	}
 </style>

@@ -1,24 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap');
 
 :root {
-	--primary-color: #0076b6;
-	--green: #33673b;
-	--blue: #337ca0;
-	--accent-color: #eaeaea;
+	--blue: #0076b6;
+	--blue-deep: #005a8c;
+	--blue-ink: #003b5c;
+	--silver: #b0b7bc;
+	--silver-light: #dfe3e6;
+	--silver-pale: #f2f4f5;
+	--black: #000000;
+	--white: #ffffff;
+	--muted: #5b6770;
+
+	--font-body: 'Barlow', system-ui, sans-serif;
+	--font-display: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+
+	--sheet-width: 30rem;
+	--gutter: 1rem;
+}
+
+html {
+	background: var(--silver-pale);
+	color-scheme: light;
 }
 
 body {
-	font-family: 'Manrope', sans-serif;
+	margin: 0;
+	font-family: var(--font-body);
+	color: var(--black);
+	font-size: 1rem;
+	line-height: 1.4;
+	-webkit-font-smoothing: antialiased;
+	font-variant-numeric: tabular-nums;
 }
 
-.text-left {
-	text-align: left;
+* {
+	box-sizing: border-box;
 }
 
-.text-center {
-	text-align: center;
+:focus-visible {
+	outline: 3px solid var(--blue);
+	outline-offset: 2px;
 }
 
-.font-weight-bold {
-	font-weight: bold;
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+	}
 }

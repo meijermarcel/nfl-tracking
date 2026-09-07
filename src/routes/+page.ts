@@ -32,7 +32,12 @@ export const load = async () => {
 				const losses = $(element).find('td').eq(2).text().trim();
 				const ties = $(element).find('td').eq(3).text().trim();
 				const member = members.find((member) => member.teams.includes(teamSanitized));
-				const teamImg = $(element).find('td').eq(0).find('img').attr('data-lazy') || '';
+				const logo = $(element).find('td').eq(0).find('img');
+				const logoSrc = logo.attr('src') || '';
+				const teamImg =
+					logo.attr('data-lazy-src') ||
+					logo.attr('data-lazy') ||
+					(logoSrc.includes('1x1') ? '' : logoSrc);
 				if (member) {
 					const memberStanding = standings.find((standing) => standing.name === member.name);
 					if (memberStanding) {
