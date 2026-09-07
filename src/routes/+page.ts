@@ -1,6 +1,6 @@
-import { Game, GameTeam, MemberStanding } from '$lib/types';
+import { MemberStanding } from '$lib/types';
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import { members, memberNames } from '$lib/global-var';
 
 let standings: MemberStanding[] = [];
