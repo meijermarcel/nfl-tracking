@@ -41,14 +41,17 @@ export const load = async () => {
 				if (member) {
 					const memberStanding = standings.find((standing) => standing.name === member.name);
 					if (memberStanding) {
-						memberStanding.wins += parseInt(wins);
-						memberStanding.losses += parseInt(losses);
-						memberStanding.ties += parseInt(ties);
+						const w = parseInt(wins) || 0;
+						const l = parseInt(losses) || 0;
+						const t = parseInt(ties) || 0;
+						memberStanding.wins += w;
+						memberStanding.losses += l;
+						memberStanding.ties += t;
 						memberStanding.teams.push({
 							name: teamSanitized,
-							wins: parseInt(wins),
-							losses: parseInt(losses),
-							ties: parseInt(ties),
+							wins: w,
+							losses: l,
+							ties: t,
 							img: teamImg
 						});
 					}
