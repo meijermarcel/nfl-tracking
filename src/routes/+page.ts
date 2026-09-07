@@ -1,7 +1,7 @@
 import { Game, GameTeam, MemberStanding } from '$lib/types';
 import axios from 'axios';
 import cheerio from 'cheerio';
-import { members } from '$lib/global-var';
+import { members, memberNames } from '$lib/global-var';
 
 let standings: MemberStanding[] = [];
 
@@ -12,13 +12,7 @@ const url = 'https://www.cbssports.com/nfl/standings/';
 
 // function to reset standings
 const resetStandings = () => {
-	standings = [
-		new MemberStanding('Marcel'),
-		new MemberStanding('Nate'),
-		new MemberStanding('Bob'),
-		new MemberStanding('Tom'),
-		new MemberStanding('Carter')
-	];
+	standings = memberNames.map((name) => new MemberStanding(name));
 };
 
 export const load = async () => {

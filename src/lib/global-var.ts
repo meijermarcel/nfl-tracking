@@ -1,22 +1,28 @@
 export const members = [
 	{
 		name: 'Marcel',
-		teams: ['Houston', 'Indianapolis', 'Miami', 'Minnesota', 'New Orleans', 'Seattle']
+		teams: ['Seattle', 'New England', 'Green Bay', 'New Orleans', 'Las Vegas']
 	},
 	{
 		name: 'Nate',
-		teams: ['Baltimore', 'Cincinnati', 'Denver', 'L.A. Rams', 'L.A. Chargers', 'Tennessee']
+		teams: ['L.A. Rams', 'Kansas City', 'San Francisco', 'Carolina', 'Washington']
 	},
 	{
 		name: 'Bob',
-		teams: ['Cleveland', 'Dallas', 'Detroit', 'Las Vegas', 'N.Y. Jets', 'Tampa Bay']
+		teams: ['Detroit', 'L.A. Chargers', 'Dallas', 'Minnesota', 'Tennessee']
 	},
 	{
 		name: 'Tom',
-		teams: ['Buffalo', 'Chicago', 'Philadelphia', 'Pittsburgh', 'San Francisco', 'Washington']
+		teams: ['Denver', 'Houston', 'Tampa Bay', 'Indianapolis', 'Arizona']
+	},
+	{
+		name: 'Matt',
+		teams: ['Buffalo', 'Chicago', 'Cincinnati', 'N.Y. Giants', 'Atlanta']
 	},
 	{
 		name: 'Carter',
-		teams: ['Arizona', 'Atlanta', 'Carolina', 'Green Bay', 'Jacksonville', 'Kansas City']
+		teams: ['Baltimore', 'Philadelphia', 'Jacksonville', 'Pittsburgh', 'N.Y. Jets']
 	}
 ];
+
+export const memberNames = members.map((member) => member.name);

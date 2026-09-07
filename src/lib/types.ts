@@ -1,3 +1,5 @@
+import { memberNames } from '$lib/global-var';
+
 export class Standings {
 	members: MemberStanding[] = [];
 }
@@ -73,13 +75,7 @@ export class Stats {
 
 export class StatField {
 	name = '';
-	members: MemberStat[] = [
-		new MemberStat('Marcel'),
-		new MemberStat('Nate'),
-		new MemberStat('Bob'),
-		new MemberStat('Tom'),
-		new MemberStat('Carter')
-	];
+	members: MemberStat[] = memberNames.map((name) => new MemberStat(name));
 
 	constructor(name: string) {
 		this.name = name;

@@ -75,7 +75,7 @@
 </style>
 
 <nav>
-    <div class="title">NFL 2024</div>
+    <div class="title">NFL 2026</div>
 </nav>
 
 <div class="container">
